@@ -10,7 +10,7 @@ export interface MovieModel {
     poster: string
     startDate: string
     shortUrl: string
-    runTime: string
+    runTime: number
     active: boolean
     createdAt: string
     updatedAt: string

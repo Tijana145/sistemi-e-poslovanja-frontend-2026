@@ -1,18 +1,18 @@
 <script lang="ts" setup>
 
 import Loading from '@/components/loading.vue';
-import { DataService } from '@/services/data.service';
+import { CinemaService } from '@/services/cinema.service';
 import {ref} from 'vue';
 
 const cinemas = ref <any[]>()
-DataService.getCinemas()
+CinemaService.getCinemas()
     .then(rsp => cinemas.value = rsp.data)
 
 function remove(cinema: any){
   if (!confirm(`Obrisi bioskop ${cinema.name}?`))
     return
-  DataService.deleteCinemaById(cinema.cinemaId)
-    .then(rso => {
+  CinemaService.deleteCinemaById(cinema.cinemaId)
+    .then(rsp => {
       cinemas.value = cinemas.value?.filter(c=>c.cinemaId !== cinema.cinemaId)
     })
 }

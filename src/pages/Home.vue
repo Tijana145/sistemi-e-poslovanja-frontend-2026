@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import Loading from '@/components/loading.vue';
 import type { MovieModel } from '@/models/movie.model';
-import { DataService } from '@/services/data.service';
+import { MovieService } from '@/services/movie.service';
 import { ref } from 'vue';
 
 
 const movies = ref<MovieModel[]>([]) 
 
-DataService.getMovies()
+MovieService.getMovies()
   .then(rsp => movies.value = rsp.data.sort((a, b) => b.movieId - a.movieId))
 
 </script>

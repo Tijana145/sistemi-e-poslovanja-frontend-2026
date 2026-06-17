@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Loading from '@/components/loading.vue'
 import type { MovieModel } from '@/models/movie.model'
-import { DataService } from '@/services/data.service'
+import { MovieService } from '@/services/movie.service'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -10,7 +10,7 @@ const id = Number(route.params.id)
 
 const movie = ref<MovieModel>()
 
-DataService.getMovieById(id)
+MovieService.getMovieById(id)
   .then(rsp => {
     movie.value = rsp.data
   })
@@ -36,6 +36,7 @@ const formattedRuntime = computed(() => {
 
   return `${hours}h ${minutes}min`
 })
+
 
 function formatScreeningTime(value: string) {
   if (!value) return 'N/A'
