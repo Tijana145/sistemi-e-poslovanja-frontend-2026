@@ -5,8 +5,11 @@ export class MovieService{
     static async getMovies() {
        return await DataService.useAxios<MovieModel[]>('/movie')
     }
+        static async getAllMovies() {
+       return await DataService.useAxios<MovieModel[]>('/movie/all')
+    }
 
-    static async getMovieById(id: number) {
+    static async getById(id: number) {
         return await DataService.useAxios<MovieModel>('/movie/' + id)
     }
 

@@ -4,8 +4,9 @@ import About from '../pages/About.vue'
 import Details from '../pages/Details.vue'
 import Cinema from '@/pages/Cinema.vue'
 import EditCinema from '@/pages/EditCinema.vue'
-
-
+import AddCinema from '@/pages/AddCinema.vue'
+import EditTimeTable from '@/pages/EditTimeTable.vue'
+import AddTimeTable from '@/pages/AddTimeTable.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,15 +39,37 @@ const router = createRouter({
         title: 'Cinemas'
       }
     },
-        {
-      path: '/cinema/:id',
-      component: EditCinema,
-      meta: {
-        title: 'Edit Cinema'
-      }
-    },
-  ],
+      {
+  path: '/cinema/add',
+  component: AddCinema,
+  meta: {
+    title: 'Add Cinema'
+  }
+},
+{
+  path: '/cinema/:id',
+  component: EditCinema,
+  meta: {
+    title: 'Edit Cinema'
+  }
+},
+{
+  path: '/time-table/add',
+  component: AddTimeTable,
+  meta: {
+    title: 'Add Time Table'
+  }
+},
+{
+  path: '/time-table/:id',
+  component: EditTimeTable,
+  meta: {
+    title: 'Edit Time Table'
+  }
+},
+],
 })
+
 
 router.beforeEach((to, from, next) => {
  if (to.meta.title) {

@@ -1,33 +1,29 @@
 <script lang="ts" setup>
-import Loading from '@/components/loading.vue';
-import type { CinemaModel } from '@/models/cinema.model';
 import { CinemaService } from '@/services/cinema.service';
 import { ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const route = useRoute()
+
 const router = useRouter()
-const id = Number(route.params.id)
+const cinema = ref({
+    name: '',
+    address: ''
+})
 
-const cinema = ref <CinemaModel>()
-CinemaService.getCinemaById(id)
-  .then(rsp => {
-    cinema.value = Array.isArray(rsp.data) ? rsp.data[0] : rsp.data
-  })
 
 function update(){
     if(!confirm('Save changer?'))
         return
 
-    CinemaService.updateCinema(id, cinema.value)
+    CinemaService.createCinema( cinema.value)
         .then(rsp=> router.push('/cinema'))
 }
 </script>
 
 <template>
-    <div class="card crud-container" v-if="cinema">
+    <div class="card crud-container">
         <div class="card-header fw-bold">
-            Edit cinema
+            Create cinema
         </div>
         <div class="card-body">
         <div class="mb-3">
@@ -45,5 +41,4 @@ function update(){
             </button>
         </div>
     </div>
-    <Loading v-else />
 </template>
