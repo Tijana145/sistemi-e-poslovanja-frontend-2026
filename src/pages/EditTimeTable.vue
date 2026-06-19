@@ -16,7 +16,6 @@ const id = Number(route.params.id)
 const timeTable = ref<TimeTableModel>()
 TimeTableService.getById(id)
     .then(rsp => timeTable.value = rsp.data)
-
 const cinemas = ref <CinemaModel[]>()
 CinemaService.getCinemas()
     .then(rsp => cinemas.value = rsp.data)

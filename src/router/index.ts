@@ -7,6 +7,8 @@ import EditCinema from '@/pages/EditCinema.vue'
 import AddCinema from '@/pages/AddCinema.vue'
 import EditTimeTable from '@/pages/EditTimeTable.vue'
 import AddTimeTable from '@/pages/AddTimeTable.vue'
+import Login from '@/pages/Login.vue'
+import Signup from '@/pages/Signup.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +67,20 @@ const router = createRouter({
   component: EditTimeTable,
   meta: {
     title: 'Edit Time Table'
+  }
+},
+{
+  path: '/login',
+  component: Login,
+  meta: {
+    title: 'Login'
+  }
+},
+{
+  path: '/signup',
+  component: Signup,
+  meta: {
+    title: 'Login'
   }
 },
 ],

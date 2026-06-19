@@ -222,7 +222,13 @@ function remove(timeTable: TimeTableModel){
               Available cinema times for this movie
             </p>
           </div>
-        </div>
+          </div>
+
+      <!--    <RouterLink :to="`/time-table/add?movieId=${id}`" class="btn btn-primary">
+              <i class="fa-solid fa-plus me-2"></i> Add Time Table
+        </RouterLink>
+        </div> -->
+      
 
         <!-- Empty state -->
         <div
@@ -332,7 +338,7 @@ function remove(timeTable: TimeTableModel){
         </div>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <style scoped>

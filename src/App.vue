@@ -22,7 +22,7 @@ const year = new Date().getFullYear()
           <RouterLink class="nav-link" to="/cinema"><i class="fa-solid fa-building"></i> Cinemas</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/cinema"><i class="fa-solid fa-clock-rotate-left"></i> Add Time Table</RouterLink>
+          <RouterLink class="nav-link" to="/time-table/add"><i class="fa-solid fa-clock-rotate-left"></i> Add Time Table</RouterLink>
         </li>
         
       </ul>
