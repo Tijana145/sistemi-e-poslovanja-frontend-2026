@@ -9,6 +9,7 @@ import EditTimeTable from '@/pages/EditTimeTable.vue'
 import AddTimeTable from '@/pages/AddTimeTable.vue'
 import Login from '@/pages/Login.vue'
 import Signup from '@/pages/Signup.vue'
+import Verify  from '@/pages/Verify.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,7 +81,14 @@ const router = createRouter({
   path: '/signup',
   component: Signup,
   meta: {
-    title: 'Login'
+    title: 'Signup Now'
+  }
+},
+{
+  path: '/verify',
+  component: Verify,
+  meta: {
+    title: 'Email Verification'
   }
 },
 ],

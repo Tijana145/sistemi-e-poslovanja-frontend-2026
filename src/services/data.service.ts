@@ -18,4 +18,12 @@ export class DataService {
         })
     }
 
+    static async register(obj: any){
+        return await client.request({
+            url: '/user/signup',
+            method: 'POST',
+            data: obj
+        })
+    }
+
 }

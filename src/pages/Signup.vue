@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+import { DataService } from '@/services/data.service';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-    const payload = ref ({
+const router = useRouter()
+const payload = ref ({
         firstName: '',
         lastName: '',
         gender: 'm', 
@@ -10,6 +13,10 @@ import { ref } from 'vue';
         repeat: ''
     })
 
+function signup(){
+    DataService.register(payload.value)
+        .then(rsp => router.push('/verify'))
+}
 </script>
 
 <template>
@@ -46,7 +53,7 @@ import { ref } from 'vue';
         </div>
         <div class="card-footer">
             <div class="btn-group">
-                <button type="button" class="btn btn-success">
+                <button type="button" class="btn btn-success" @click="signup">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i>  Signup
                 </button>
                 <RouterLink to="/login" class="btn btn-secondary">
