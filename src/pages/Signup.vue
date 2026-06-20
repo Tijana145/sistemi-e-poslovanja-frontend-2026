@@ -14,9 +14,22 @@ const payload = ref ({
     })
 
 function signup(){
+    if (payload.value.email == '' && payload.value.password == '')
+        return
+
+    if (payload.value.firstName == '' || payload.value.lastName == '' )
+        return
+
+    if (payload.value.repeat !== payload.value.password )
+        return
+    
     DataService.register(payload.value)
-        .then(rsp => router.push('/verify'))
-}
+        .then(rsp => {
+        sessionStorage.setItem('verify_email', payload.value.email)
+         router.push('/verify')
+        })
+    }
+
 </script>
 
 <template>

@@ -1,8 +1,23 @@
 <script lang="ts" setup>
+import { AuthService } from '@/services/auth.service';
+import { DataService } from '@/services/data.service';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-    const email = ref <string>('')
-    const password = ref <string>('')
+const router = useRouter()
+const auth = ref({
+    email: '',
+    password: ''
+})
+
+
+function login(){
+    DataService.login(auth.value)
+        .then(rsp=>{
+            AuthService.saveAuth(rsp.data)
+            router.push('/')
+        })
+}
 </script>
 
 <template>
@@ -11,16 +26,16 @@ import { ref } from 'vue';
         <div class="card-body">
                     <div class="mb-3">
             <label for="email" class="form-label">Email: </label>
-            <input type="email" class="form-control" id="email" v-model="email">
+            <input type="email" class="form-control" id="email" v-model="auth.email">
         </div>
         <div class="mb-3">
             <label for="pass" class="form-label">Password: </label>
-            <input type="password" class="form-control" id="pass" v-model="password">
+            <input type="password" class="form-control" id="pass" v-model="auth.password">
         </div>
         </div>
         <div class="card-footer">
             <div class="btn-group">
-                <button type="button" class="btn btn-success">
+                <button type="button" class="btn btn-success" @click="login">
                   <i class="fa-solid fa-arrow-right-to-bracket"></i>  Login
                 </button>
                 <RouterLink to="/signup" class="btn btn-secondary">

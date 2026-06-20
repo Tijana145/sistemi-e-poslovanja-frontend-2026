@@ -26,4 +26,19 @@ export class DataService {
         })
     }
 
+        static async verifyEmail(code: number){
+        return await client.request({
+            url: `/user/verify/${code}`,
+            method: 'PUT'
+           
+        })
+    }
+        static async login(obj: any){
+        return await client.request({
+            url: '/user/login',
+            method: 'POST',
+            data: obj
+        })
+    }
+
 }
