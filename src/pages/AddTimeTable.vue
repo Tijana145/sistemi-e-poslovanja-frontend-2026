@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Loading from '@/components/loading.vue';
+import { useLogout } from '@/hooks/logout.hook';
 import type{ CinemaModel } from '@/models/cinema.model';
 import type{ MovieModel } from '@/models/movie.model';
 import type { TimeTableModel } from '@/models/time.model';
@@ -12,6 +13,7 @@ import { useRouter } from 'vue-router';
 
 
 const router = useRouter()
+const logout = useLogout()
 
 
 const timeTable = ref<TimeTableModel>({
@@ -46,6 +48,7 @@ function update(){
 
     TimeTableService.create(timeTable.value)
         .then(rsp => router.push(`/details/${movieId}`))
+        .catch(e => logout(e))
 }
 </script>
 

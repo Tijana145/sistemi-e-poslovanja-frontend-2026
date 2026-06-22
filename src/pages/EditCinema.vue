@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import Loading from '@/components/loading.vue';
+import { useLogout } from '@/hooks/logout.hook';
 import type { CinemaModel } from '@/models/cinema.model';
 import { CinemaService } from '@/services/cinema.service';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+const logout = useLogout()
 const route = useRoute()
 const router = useRouter()
 const id = Number(route.params.id)
@@ -21,6 +23,7 @@ function update(){
 
     CinemaService.updateCinema(id, cinema.value)
         .then(rsp=> router.push('/cinema'))
+        .catch(e => logout(e))
 }
 </script>
 

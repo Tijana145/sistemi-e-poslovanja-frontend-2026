@@ -7,8 +7,9 @@ import { ref } from 'vue';
 
 const movies = ref<MovieModel[]>([]) 
 
+
 MovieService.getMovies()
-  .then(rsp => movies.value = rsp.data.sort((a, b) => b.movieId - a.movieId))
+  .then(rsp => movies.value = rsp.data)
 
 </script>
 

@@ -17,6 +17,7 @@ function login(){
             AuthService.saveAuth(rsp.data)
             router.push('/')
         })
+        .catch(e => alert('Error: ' + e.message))
 }
 </script>
 

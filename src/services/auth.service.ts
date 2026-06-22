@@ -15,4 +15,10 @@ export class AuthService {
     static clearAuth(){
         localStorage.removeItem(AUTH_KEY)
     }
+    static getAccessToken(){
+        return this.getAuth().access
+    }
+    static getRefreshToken(){
+        return this.getAuth().refresh
+    }
 }
