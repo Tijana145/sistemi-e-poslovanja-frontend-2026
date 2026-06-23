@@ -10,6 +10,7 @@ import AddTimeTable from '@/pages/AddTimeTable.vue'
 import Login from '@/pages/Login.vue'
 import Signup from '@/pages/Signup.vue'
 import Verify  from '@/pages/Verify.vue'
+import Cart from '@/pages/Cart.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,6 +90,13 @@ const router = createRouter({
   component: Verify,
   meta: {
     title: 'Email Verification'
+  }
+},
+{
+  path: '/cart',
+  component: Cart,
+  meta: {
+    title: 'Cart'
   }
 },
 ],

@@ -288,6 +288,9 @@ function remove(timeTable: TimeTableModel){
 
                 <td class="text-end">
                   <div class="btn-group">
+                  <RouterLink class="btn btn-sm btn-primary" :to="`/time-table/${tt.timeTableId}/order`">
+                      <i class="fa-solid fa-cart-arrow-down"></i>
+                  </RouterLink>
                     <RouterLink class="btn btn-sm btn-success" :to="`/time-table/${tt.timeTableId}`">
                       <i class="fa-solid fa-pen-to-square"></i>
                     </RouterLink>
