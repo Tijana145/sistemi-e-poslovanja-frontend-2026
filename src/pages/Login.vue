@@ -35,7 +35,7 @@ function login(){
         </div>
         </div>
         <div class="card-footer">
-            <div class="btn-group">
+            <div class="d-flex gap-2">
                 <button type="button" class="btn btn-success" @click="login">
                   <i class="fa-solid fa-arrow-right-to-bracket"></i>  Login
                 </button>

@@ -37,6 +37,9 @@ const route = useRoute()
            <RouterLink class="nav-link" to="/cart"> <i class="fa-solid fa-basket-shopping"></i> Cart</RouterLink>
         </li>
         <li class="nav-item">
+           <RouterLink class="nav-link" to="/user"> <i class="fa-solid fa-user"></i> User </RouterLink>
+        </li>
+        <li class="nav-item">
            <button class="nav-link" tyoe="button" @click="logout"> <i class="fa-solid fa-right-from-bracket"></i> Logout </button>
         </li>
         </template>

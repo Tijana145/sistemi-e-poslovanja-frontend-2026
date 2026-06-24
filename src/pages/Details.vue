@@ -301,7 +301,7 @@ function addToCart(timeTableId: number){
                 </td>
 
                 <td class="text-end">
-                  <div class="btn-group w-100">
+                  <div class="btn-group w-50">
                   <button  type="button" class="btn btn-sm btn-primary" @click="addToCart(tt.timeTableId)">
                       <i class="fa-solid fa-cart-arrow-down"></i>
                   </button>

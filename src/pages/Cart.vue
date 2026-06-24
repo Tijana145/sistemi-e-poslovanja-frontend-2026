@@ -1,17 +1,20 @@
 <script lang="ts" setup>
 import Loading from '@/components/loading.vue';
 import { useLogout } from '@/hooks/logout.hook';
+import router from '@/router';
 import { DataService } from '@/services/data.service';
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const logout = useLogout()
 const cartItems = ref<any[]>([])  
 const loading = ref(true)
+const Router = useRouter()
 
 DataService.useAxios('/invoice/cart')
     .then(rsp => cartItems.value = rsp.data)
     .catch(e => logout(e))
-    .finally(() => loading.value = false)  // ← ugasi loading
+    .finally(() => loading.value = false)  
 
 const total = computed(() => {
     if (cartItems.value == undefined) return 0
@@ -22,14 +25,52 @@ const total = computed(() => {
     return current
 })
 function pay(){
+    if(cartItems.value?.length == 0){
+        alert('Cart is empty!')
+        return
+    }
+
+
+    if (!confirm('Are you sure you want to pay?'))
+        return
+
+    DataService.useAxios('/invoice/pay', 'put')
+    .then(rsp => router.push('/user'))
+    .catch(e => logout(e))
+    //.finally(() => loading.value = false)
+}
+function updateCount(item: any){
+    DataService.useAxios(`/invoice/cart/${item.invoiceItemId}/count/${item.count}`, 'put')
+        .catch(e => logout(e))
+        //.finally(() => loading.value = false)
 
 }
+
 function add(item:any){
     item.count = item.count + 1
+    updateCount(item)
 }
 function remove(item: any){
     if(item.count == 1) return
     item.count = item.count - 1
+    updateCount(item)
+}
+//function removeItemFromCart(item: any){
+ //   if (!confirm(`Are you sure you want to remove the item ${item.timeTable.movie.title}?`))
+//        return
+//    DataService.useAxios(`/invoice/cart/${item.invoiceItemId}`, 'delete')
+ //       .catch(e => logout(e))
+//}
+function removeItemFromCart(item: any){
+    if (!confirm(`Are you sure you want to remove the item ${item.timeTable.movie.title}?`))
+        return
+    DataService.useAxios(`/invoice/cart/${item.invoiceItemId}`, 'delete')
+        .then(() => {
+            cartItems.value = cartItems.value.filter(
+                i => i.invoiceItemId !== item.invoiceItemId
+            )
+        })
+        .catch(e => logout(e))
 }
 
 </script>
@@ -80,7 +121,7 @@ function remove(item: any){
                         <td>{{ item.count * item.timeTable.price}} RSD </td>
                         <td>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-danger">
+                                <button type="button" class="btn btn-sm btn-danger" @click="removeItemFromCart(item)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
@@ -93,7 +134,7 @@ function remove(item: any){
             <div class="d-flex justify-content-between">
                 <div class="fw-bold">Total: <span class="h4">{{ total }} RSD </span></div>
                 <div>
-                    <button  type="button" class="btn  btn-success" @click="pay()">
+                    <button  type="button" class="btn  btn-success" @click="pay()" :disabled="cartItems.length == 0">
                       <i class="fa-solid fa-credit-card"></i> Pay Now
                   </button></div>
             </div>
