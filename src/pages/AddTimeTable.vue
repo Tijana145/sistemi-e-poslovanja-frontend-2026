@@ -33,7 +33,7 @@ CinemaService.getCinemas()
     })
 
 const movies = ref <MovieModel[]>()
-MovieService.getAllMovies()
+MovieService.getMovies()
     .then(rsp => {
         movies.value = rsp.data
         timeTable.value.movieId = rsp.data[0]!.movieId

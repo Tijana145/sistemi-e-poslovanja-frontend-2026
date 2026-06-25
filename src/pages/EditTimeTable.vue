@@ -26,7 +26,7 @@ CinemaService.getCinemas()
     .catch(e => logout(e))
 
 const movies = ref <MovieModel[]>()
-MovieService.getAllMovies()
+MovieService.getMovies()
     .then(rsp => movies.value = rsp.data)
 
 

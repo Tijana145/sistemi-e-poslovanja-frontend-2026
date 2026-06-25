@@ -41,6 +41,5 @@ export interface MovieModel {
             createdAt: string
         }
     }[]
-   timeTables: TimeTableModel[]
  
 }

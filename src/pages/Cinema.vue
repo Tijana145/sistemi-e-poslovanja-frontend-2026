@@ -29,7 +29,7 @@ function remove(cinema: any){
     </div>
     <div class="card-body"> 
         <table class="table">
-  <thead>
+      <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
