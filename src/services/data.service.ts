@@ -5,66 +5,70 @@ const client = axios.create({
     baseURL: 'http://localhost:3300/api',
     headers: {
         'Accept': 'application/json',
-        
     }
 })
 
 export class DataService {
 
-    static async useAxios<T>(url: string, method: 'get' | 'post' | 'put' | 'delete' = 'get', payload: any={}, retry = true): Promise<any>{
-            const accessToken = AuthService.getAccessToken()
-            const rsp = await client.request<T>({
-                url, method,
-                headers: {
-                    'Accept':'application/json',
-                    'Authorization': accessToken ? `Bearer ${accessToken}` : ''
-                },
-                data: payload,
-                validateStatus: () => true
-            })
+    static async useAxios<T>(url: string, method: 'get' | 'post' | 'put' | 'delete' = 'get', payload: any = {}, retry = true): Promise<any> {
+        const accessToken = AuthService.getAccessToken()
 
-            if(rsp.status === 403 && retry){
-                const newAccess = await this.refreshAccessToken()
-                if (newAccess){
-                    return await this.useAxios<T>(url, method, payload, false)
-                }
-            }
-            if(rsp.status === 500){
-                //@ts-ignore
-                throw new Error(rsp.data.message)
-            }
+        const rsp = await client.request<T>({
+            url, method,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': accessToken ? `Bearer ${accessToken}` : ''
+            },
+            data: payload,
+            validateStatus: () => true
+        })
 
-            if(rsp.status === 200 || rsp.status === 204){
-                return rsp
-            }
+        if ((rsp.status === 403 || rsp.status === 401) && retry) {
+        if (!AuthService.hasAuth()) {
             throw new Error(`Status code: ${rsp.status}`)
-
         }
-        
-    
-    private static async refreshAccessToken(){
-        const refreshToken = AuthService.getRefreshToken()
-        if(!refreshToken) return null 
+
+        const newAccess = await DataService.refreshAccessToken()
+            if (newAccess) {
+        return await DataService.useAxios<T>(url, method, payload, false)
+        }
+    }
+
+        if (rsp.status === 500) {
+            //@ts-ignore
+            throw new Error(rsp.data.message)
+        }
+
+        if (rsp.status === 200 || rsp.status === 204) {
+            return rsp
+        }
+
+        throw new Error(`Status code: ${rsp.status}`)
+    }
+
+    private static async refreshAccessToken() {
+        const refreshToken = AuthService.getRefreshToken() // ✅ bilo: pozivala samu sebe
+        if (!refreshToken) return null
 
         try {
             const rsp = await client.request({
                 url: '/user/refresh',
                 method: 'post',
                 headers: {
-                'Accept':'application/json',
-                'Authorization': `Bearer ${refreshToken}`
-            },
-        })
-        AuthService.saveAuth(rsp.data)
-        return rsp.data.access
-    } catch(e){
-        AuthService.clearAuth()
-        console.error('Token refresh failed!')
-        return null
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${refreshToken}`
+                },
+            })
+            AuthService.saveAuth(rsp.data)
+            return rsp.data.access
+        } catch (e) {
+            AuthService.clearAuth()
+            console.error('Token refresh failed!')
+            return null
+        }
     }
-}
 
-    static async register(obj: any){
+    static async register(obj: any) {
         return await client.request({
             url: '/user/signup',
             method: 'POST',
@@ -72,14 +76,14 @@ export class DataService {
         })
     }
 
-        static async verifyEmail(code: number){
+    static async verifyEmail(code: number) {
         return await client.request({
             url: `/user/verify/${code}`,
             method: 'PUT'
-           
         })
     }
-        static async login(obj: any){
+
+    static async login(obj: any) {
         return await client.request({
             url: '/user/login',
             method: 'POST',

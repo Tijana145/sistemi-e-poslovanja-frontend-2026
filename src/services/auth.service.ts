@@ -2,10 +2,11 @@ import type { AuthModel } from "@/models/auth.model";
 const AUTH_KEY = 'psep_2026_auth'
 
 export class AuthService {
-    static getAuth(): AuthModel {
-        return JSON.parse(localStorage.getItem(AUTH_KEY)!)
-
-    }
+    static getAuth(): AuthModel | null {
+    const data = localStorage.getItem(AUTH_KEY)
+    if (!data) return null
+    return JSON.parse(data)
+}
     static hasAuth(){
         return localStorage.getItem(AUTH_KEY) != null
     }
@@ -16,9 +17,9 @@ export class AuthService {
         localStorage.removeItem(AUTH_KEY)
     }
     static getAccessToken(){
-        return this.getAuth().access
+        return this.getAuth()?.access ?? null
     }
     static getRefreshToken(){
-        return this.getAuth().refresh
+        return this.getAuth()?.refresh ?? null
     }
 }

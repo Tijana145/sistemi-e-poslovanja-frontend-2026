@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
+import Projection from '@/pages/Projection.vue'
 import About from '../pages/About.vue'
 import Details from '../pages/Details.vue'
 import Cinema from '@/pages/Cinema.vue'
@@ -25,6 +26,11 @@ const router = createRouter({
         title: 'Home'
       }
     },
+    {
+    path: '/projection',
+    component: Projection,
+    meta: { title: 'Projections' }
+},
     {
       path: '/about',
       component: About,

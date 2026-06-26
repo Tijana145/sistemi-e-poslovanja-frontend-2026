@@ -1,104 +1,69 @@
 <script setup lang="ts">
 import Loading from '@/components/loading.vue';
 import { useLogout } from '@/hooks/logout.hook';
-import type { CinemaModel } from '@/models/cinema.model';
-import type { TimeTableModel } from '@/models/time.model';
-import router from '@/router';
-import { CinemaService } from '@/services/cinema.service';
-import { InvoiceService } from '@/services/invoice.service';
-import { TimeTableService } from '@/services/time.services';
+import type { MovieModel } from '@/models/movie.model';
+import { MovieService } from '@/services/movie.service';
 import { onMounted, ref } from 'vue';
 
 const logout = useLogout()
-const cinemas = ref<CinemaModel[]>()
+const movies = ref<MovieModel[]>()
 
-
-function loadData(){
-    CinemaService.getCinemasWithTimeTables()
-        .then(rsp => cinemas.value = rsp.data)
-        .catch(e=>logout(e))
-}
-
-function remove(timeTable: TimeTableModel){
-    if (!confirm(`Obrisi projekciju ${timeTable.movie.title} u ${timeTable.startTime}h ?`))
-        return
-
-    TimeTableService.deleteById(timeTable.timeTableId)
-        .then(rsp => {loadData()})
-        .catch(e=>logout(e))
-}
-function addToCart(timeTableId: number){
-  if (!confirm(`Dodaj u korpu?`))
-    return
-
-    InvoiceService.addTimeTableByIdToCart(timeTableId)
-        .then(() => router.push('/cart'))
-        .catch(e => logout(e))
-    }
-onMounted(()=>loadData())
-
-
-
+onMounted(() => {
+    MovieService.getMovies()
+        .then(rsp => movies.value = rsp.data)
+        .catch(e => {
+            if (e.message === 'Status code: 403') return
+            logout(e)
+        })
+})
 </script>
 
 <template>
-<!---    <div class="row g-3" v-if="cinemas">
-        <div class="col-12 col-lg-6" v-for="cinema in cinemas" :key="cinema.cinemaId"> -->
-            <div class="card h-100" v-if="cinemas" v-for="cinema in cinemas" :key="cinema.cinemaId">
-                <div class="card-header fw-bold fs-5">
-                    {{ cinema.name }} ({{ cinema.address }})
+    <div v-if="movies" class="row g-3">
+        <div
+            class="col-6 col-md-4 col-lg-3 col-xl-2"
+            v-for="movie in movies"
+            :key="movie.movieId"
+        >
+            <div class="card h-100 movie-card">
+                <img
+                    :src="movie.poster"
+                    :alt="movie.title"
+                    class="card-img-top movie-poster"
+                >
+                <div class="card-body p-2">
+                    <h6 class="card-title mb-1 fw-bold">{{ movie.title }}</h6>
+                    <p class="card-text text-body-secondary small mb-0">
+                        {{ movie.director?.name }}
+                    </p>
                 </div>
-                <div class="card-body p-0 table-responsive">
-                    <table class="table table-hover table-sm mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th class="movie" scope="col">Movie</th>
-                                <th  class="director" scope="col">Director</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Options</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="timeTable in cinema.timeTables" :key="timeTable.timeTableId">
-                                <th scope="row">{{ timeTable.timeTableId }}</th>
-                                <td class="movie"> {{ timeTable.movie?.title }}</td>
-                                <td class="director">{{ timeTable.movie.director.name }}</td>
-                                <td>{{ timeTable.movie.runTime }} min</td>
-                                <td>{{ timeTable.startTime.slice(0,5) }} h</td>
-                                <td class="text-nowrap">{{ timeTable.price }} RSD</td>
-                                <td>
-                            <div class="btn-group w-50">
-                                <button  type="button" class="btn btn-sm btn-primary" @click="addToCart(timeTable.timeTableId)">
-                                <i class="fa-solid fa-cart-arrow-down"></i>
-                                </button>
-                            <RouterLink class="btn btn-sm btn-secondary" :to="`/details/${timeTable.movieId}`">
-                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </RouterLink>
-                            <RouterLink class="btn btn-sm btn-success" :to="`/time-table/${timeTable.timeTableId}`">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </RouterLink>
-                            <button type="button" class="btn btn-sm btn-danger" @click="remove(timeTable)">
-                                    <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card-footer p-2">
+                    <RouterLink
+                        :to="`/details/${movie.movieId}`"
+                        class="btn btn-sm btn-primary w-100"
+                    >
+                        <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>
+                        Details
+                    </RouterLink>
                 </div>
             </div>
+        </div>
+    </div>
     <Loading v-else />
 </template>
 
 <style scoped>
-.movie {
-    width: 360px;
+.movie-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
 }
 
-.director {
-    width: 200px;
+.movie-card {
+    transition: transform 0.2s;
+}
+
+.movie-card:hover {
+    transform: translateY(-4px);
 }
 </style>

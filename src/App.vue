@@ -13,7 +13,7 @@ const route = useRoute()
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
-    <RouterLink class="navbar-brand" to="/"> <i class="fa-brands fa-typescript"></i> Praktikum 2026</RouterLink>
+    <RouterLink class="navbar-brand" to="/"> <i class="fa-solid fa-clapperboard"></i> CineNova</RouterLink>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,6 +25,9 @@ const route = useRoute()
         </li>
           <li class="nav-item">
           <RouterLink class="nav-link" to="/about"> <i class="fa-solid fa-star"></i>About</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/projection"><i class="fa-solid fa-film"></i> Projection </RouterLink>
         </li>
            <li class="nav-item">
           <RouterLink class="nav-link" to="/cinema"><i class="fa-solid fa-building"></i> Cinemas</RouterLink>
