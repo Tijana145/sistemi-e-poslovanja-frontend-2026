@@ -55,6 +55,7 @@ onMounted(()=>loadData())
                                 <th scope="col">#</th>
                                 <th class="movie" scope="col">Movie</th>
                                 <th  class="director" scope="col">Director</th>
+                                <th scope="col">Duration</th>
                                 <th scope="col">Start Time</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Options</th>
@@ -65,13 +66,17 @@ onMounted(()=>loadData())
                                 <th scope="row">{{ timeTable.timeTableId }}</th>
                                 <td class="movie"> {{ timeTable.movie?.title }}</td>
                                 <td class="director">{{ timeTable.movie.director.name }}</td>
-                                <td>{{ timeTable.startTime }}</td>
+                                <td>{{ timeTable.movie.runTime }} min</td>
+                                <td>{{ timeTable.startTime.slice(0,5) }} h</td>
                                 <td class="text-nowrap">{{ timeTable.price }} RSD</td>
                                 <td>
                             <div class="btn-group w-50">
                                 <button  type="button" class="btn btn-sm btn-primary" @click="addToCart(timeTable.timeTableId)">
                                 <i class="fa-solid fa-cart-arrow-down"></i>
                                 </button>
+                            <RouterLink class="btn btn-sm btn-secondary" :to="`/details/${timeTable.movieId}`">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </RouterLink>
                             <RouterLink class="btn btn-sm btn-success" :to="`/time-table/${timeTable.timeTableId}`">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </RouterLink>
