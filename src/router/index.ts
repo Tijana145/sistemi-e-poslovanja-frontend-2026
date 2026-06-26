@@ -12,6 +12,8 @@ import Signup from '@/pages/Signup.vue'
 import Verify  from '@/pages/Verify.vue'
 import Cart from '@/pages/Cart.vue'
 import User from '@/pages/User.vue'
+import Invoice from '@/pages/Invoice.vue'
+import Print from '@/pages/Print.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,6 +107,20 @@ const router = createRouter({
   component: User,
   meta: {
     title: 'User Profile'
+  }
+},
+{
+  path: '/invoice/:id/print',
+  component: Print,
+  meta: {
+    title: 'Invoice Print'
+  }
+},
+{
+  path: '/invoice/:id',
+  component: Invoice,
+  meta: {
+    title: 'Invoice Details'
   }
 },
 {
