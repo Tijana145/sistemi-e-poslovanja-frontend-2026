@@ -24,9 +24,6 @@ const route = useRoute()
           <RouterLink class="nav-link" to="/"> <i class="fa-solid fa-house"></i> Home</RouterLink>
         </li>
           <li class="nav-item">
-          <RouterLink class="nav-link" to="/about"> <i class="fa-solid fa-star"></i>About</RouterLink>
-          </li>
-          <li class="nav-item">
             <RouterLink class="nav-link" to="/projection"><i class="fa-solid fa-film"></i> Projection </RouterLink>
         </li>
            <li class="nav-item">

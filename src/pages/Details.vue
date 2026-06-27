@@ -6,6 +6,7 @@ import { MovieService } from '@/services/movie.service'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter} from 'vue-router'
 
+
 const route = useRoute()
 const logout = useLogout()
 const id = Number(route.params.id)
@@ -99,6 +100,7 @@ const formattedRuntime = computed(() => {
                   ></i>
                   {{ movie.active ? 'Active' : 'Inactive' }}
                 </span>
+            </div>
               </div>
             </div>
 
@@ -181,9 +183,6 @@ const formattedRuntime = computed(() => {
         </div>
       </div>
     </div>
-
-
-    </div>
 </template>
 
 <style scoped>
@@ -213,7 +212,7 @@ const formattedRuntime = computed(() => {
 .movie-description {
   font-size: 1rem;
   line-height: 1.7;
-  color: #495057;
+  color: #d0d0d0;
 }
 
 .status-pill {
@@ -241,10 +240,10 @@ const formattedRuntime = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  border: 1px solid rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
   padding: 1rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .info-icon {
@@ -260,14 +259,14 @@ const formattedRuntime = computed(() => {
 }
 
 .info-label {
-  color: #6c757d;
+  color: #9ca3af;
   font-size: 0.8rem;
   line-height: 1.2;
 }
 
 .info-value {
   font-weight: 700;
-  color: #212529;
+  color: #f1f1f1;
 }
 
 .section-title {
@@ -285,9 +284,10 @@ const formattedRuntime = computed(() => {
   align-items: center;
   border-radius: 999px;
   padding: 0.45rem 0.75rem;
-  background: #f8f9fa;
-  color: #343a40;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
   font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .empty-state {
@@ -332,6 +332,7 @@ const formattedRuntime = computed(() => {
   color: var(--bs-primary);
   white-space: nowrap;
 }
+
 
 @media (max-width: 767.98px) {
   .poster-wrapper,
