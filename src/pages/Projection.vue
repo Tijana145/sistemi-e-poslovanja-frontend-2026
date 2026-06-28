@@ -7,10 +7,20 @@ import router from '@/router';
 import { CinemaService } from '@/services/cinema.service';
 import { InvoiceService } from '@/services/invoice.service';
 import { TimeTableService } from '@/services/time.services';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 const logout = useLogout()
 const cinemas = ref<CinemaModel[]>()
+const searchQuery = ref('')
+
+const filteredCinemas = computed(() => {
+    if (!cinemas.value) return []
+    if (!searchQuery.value.trim()) return cinemas.value
+    return cinemas.value.filter(c =>
+        c.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.address.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+})
 
 function loadData(){
     CinemaService.getCinemasWithTimeTables()
@@ -50,7 +60,20 @@ onMounted(() => loadData())
 
 <template>
     <div v-if="cinemas">
-        <div class="card h-100 mb-3" v-for="cinema in cinemas" :key="cinema.cinemaId">
+        <div class="mb-3">
+            <input
+                v-model="searchQuery"
+                type="text"
+                class="form-control"
+                placeholder="Pretraži bioskop po nazivu ili adresi..."
+            />
+        </div>
+
+        <div v-if="filteredCinemas.length === 0" class="text-muted text-center py-4">
+            Nema rezultata za "{{ searchQuery }}"
+        </div>
+
+        <div class="card h-100 mb-3" v-for="cinema in filteredCinemas" :key="cinema.cinemaId">
             <div class="card-header fw-bold fs-5">
                 {{ cinema.name }} ({{ cinema.address }})
             </div>
